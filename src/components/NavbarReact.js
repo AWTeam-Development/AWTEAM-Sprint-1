@@ -16,7 +16,7 @@ function NavbarRect() {
           </Navbar.Brand>
           <Nav className="me-1">
             <Nav.Link href="/inicio">Inicio</Nav.Link>
-            <Nav.Link href="/inversiones">Inversiones</Nav.Link>
+            <Nav.Link href="http://inversiones.com">Inversiones</Nav.Link>
             <Nav.Link href="/empresas">Empresas</Nav.Link>
             <Nav.Link href="/nosotros">Nosotros</Nav.Link>
             <Nav.Link href="/ayuda">Ayuda</Nav.Link>
