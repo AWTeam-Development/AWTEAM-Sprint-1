@@ -15,11 +15,11 @@ function NavbarRect() {
           Gestión
           </Navbar.Brand>
           <Nav className="me-1">
-            <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/">Inversiones</Nav.Link>
-            <Nav.Link href="/">Empresas</Nav.Link>
-            <Nav.Link href="/">Nosotros</Nav.Link>
-            <Nav.Link href="/">Ayuda</Nav.Link>
+            <Nav.Link href="/inicio">Inicio</Nav.Link>
+            <Nav.Link href="/inversiones">Inversiones</Nav.Link>
+            <Nav.Link href="/empresas">Empresas</Nav.Link>
+            <Nav.Link href="/nosotros">Nosotros</Nav.Link>
+            <Nav.Link href="/ayuda">Ayuda</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
