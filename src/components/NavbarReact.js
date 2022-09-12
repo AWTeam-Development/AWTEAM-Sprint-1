@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import Logo from '../assets/images/icons/lista.png';
 
-function NavbarRect() {
+function NavbarReact() {
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -16,8 +16,8 @@ function NavbarRect() {
           </Navbar.Brand>
           <Nav className="me-1">
             <Nav.Link href="/inicio">Inicio</Nav.Link>
-            <Nav.Link href="http://inversiones.com">Inversiones</Nav.Link>
-            <Nav.Link href="/empresas">Empresas</Nav.Link>
+            <Nav.Link href="http://inversiones.com">Listado</Nav.Link>
+            <Nav.Link href="/empresas">Agregar </Nav.Link>
             <Nav.Link href="/nosotros">Nosotros</Nav.Link>
             <Nav.Link href="/ayuda">Ayuda</Nav.Link>
           </Nav>
@@ -28,4 +28,4 @@ function NavbarRect() {
   );
 }
 
-export default NavbarRect;
+export default NavbarReact;

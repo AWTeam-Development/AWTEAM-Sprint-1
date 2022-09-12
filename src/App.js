@@ -1,7 +1,9 @@
 
 import './App.css';
+import FooterReact from './components/FooterReact';
 import NavbarReact from './components/NavbarReact';
-import TablaProductosReact from './components/TablaProductosReact';
+import TablaProductos from './components/TablaProductos';
+
 
 function App() {
 
@@ -15,7 +17,11 @@ function App() {
       <NavbarReact></NavbarReact>
    
       <div className='content'>
-      <TablaProductosReact></TablaProductosReact>
+
+
+      <TablaProductos></TablaProductos>
+
+      <FooterReact></FooterReact>
 
       </div>
 
