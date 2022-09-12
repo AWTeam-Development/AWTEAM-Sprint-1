@@ -2,7 +2,7 @@
 import './App.css';
 import FooterReact from './components/FooterReact';
 import NavbarReact from './components/NavbarReact';
-import TablaProductos from './components/TablaProductos';
+import TablaProductos from './components/productos/TablaProductos';
 
 
 function App() {
@@ -14,16 +14,16 @@ function App() {
 
      {/*<header className="App-header"></header>*/} 
 
-      <NavbarReact></NavbarReact>
+      <NavbarReact/>
    
-      <div className='content'>
+      <div className='container'>
 
-
-      <TablaProductos></TablaProductos>
-
-      <FooterReact></FooterReact>
+      <TablaProductos/>
 
       </div>
+
+      <FooterReact/>
+
 
 
     </div>

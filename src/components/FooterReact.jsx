@@ -1,7 +1,9 @@
 
 import React from 'react';
 
-function FooterReact() {
+export default class FooterReact extends React.Component {
+
+render(){
     return (
       <>
     {/*footer*/}
@@ -99,5 +101,4 @@ function FooterReact() {
     </>
   );
 }
-
-export default FooterReact;
+}
