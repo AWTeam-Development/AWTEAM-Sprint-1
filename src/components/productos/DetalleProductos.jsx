@@ -1,47 +1,21 @@
 import React from 'react';
-import Table from 'react-bootstrap/Table';
-import ApiProductosService from '../../services/productos/ProductosService';
-
 //Images
 import detailsProdSvg from '../../assets/images/icons-crud/details-product.svg';
 import editProdSvg from '../../assets/images/icons-crud/edit-product.svg';
 import deleteProdSvg from '../../assets/images/icons-crud/delete-product.svg';
+import { Table } from 'react-bootstrap';
 
 
 
-
-export default class TablaProductos extends React.Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      productos: []
-    }
-  }
-
-  //cargamos el listado 
-  componentDidMount() {
-    ApiProductosService.getProductos()
-      .then((response) => {
-        this.setState({ productos: response.data.content });
-        console.log(response.data.content);
-      })
-      .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
-      });;
-  }
+export default class DetalleProductos extends React.Component {
 
 
+    render(){
+      return (
+        <>
+ 
 
-
-  render() {
-    return (
-
-
-
-
-      <Table striped bordered hover variant="dark" classNameName='table-condensed m-2'>
+ <Table striped bordered hover variant="dark" classNameNameName='table-condensed m-2'>
         <thead>
           <tr>
             <th>Código</th>
@@ -59,38 +33,38 @@ export default class TablaProductos extends React.Component {
           {
             this.state.productos.map(producto =>
               <tr key={producto.id}>
-                <td>{producto.codigo}</td>
+                <td>{producto.codigo.substring(0, 12)}...</td>
 
                 <td >
-                  <div className='border-rounded-circle bg-white'>
+                  <div classNameName='border-rounded-circle bg-white'>
                   <img src={producto.imagen} target="_blank" width="70px" height="70px" alt="imagen del componente" />
                   </div>
                 </td>
 
                 <td>{producto.nroPieza}</td>
                 <td>{producto.categoria}</td>
-                <td>{producto.descripcion}</td>
+                <td>{producto.descripcion.substring(0, 20)}...</td>
                 <td>{producto.fabricante}</td>
                 <td>{producto.stock}u</td>
                 <td>us${producto.precio}</td>
                 <td>
-                  <div className="btn-group d-sm-block " role="group">
-                    <div className="d-flex justify-content-center">
-                      <button className="btn btn-primary border-dark alert-link m-1 p-1">
+                  <div classNameName="btn-group d-sm-block " role="group">
+                    <div classNameName="d-flex justify-content-center">
+                      <button classNameName="btn btn-primary border-dark alert-link m-1 p-1">
                         {/*Icono Visualizar Producto*/}
-                        <img src={detailsProdSvg} alt="" width="25" height="25" title="Detalles Producto" className="" />
+                        <img src={detailsProdSvg} alt="" width="25" height="25" title="Detalles Producto" classNameName="" />
                         {/*Fin Icono Visualizar Producto*/}
                       </button>
-                      <button className="btn btn-warning border-dark alert-link m-1 p-1">
+                      <button classNameName="btn btn-warning border-dark alert-link m-1 p-1">
                         {/*Icono Editar Producto*/}
-                        <img src={editProdSvg} alt="" width="25" height="25" title="Editar Producto" className="" />
+                        <img src={editProdSvg} alt="" width="25" height="25" title="Editar Producto" classNameName="" />
                         {/*Fin Icono Editar Producto*/}
                       </button>
                       
                         {/* BTN MODAL DELETE CHECK  */}
-                        <button type="button" className="btn btn-danger border-dark alert-link m-1 p-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop02">
+                        <button type="button" classNameName="btn btn-danger border-dark alert-link m-1 p-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop02">
                           {/* Icono Eliminar Producto*/}
-                          <img src={deleteProdSvg} alt="" width="25" height="25" title="Eliminar Producto" className="" />
+                          <img src={deleteProdSvg} alt="" width="25" height="25" title="Eliminar Producto" classNameName="" />
                           {/* Fin Icono Eliminar Producto*/}
                         </button>
                         {/*  FIN BTN MODAL DELETE CHECK */}
@@ -103,11 +77,9 @@ export default class TablaProductos extends React.Component {
           }
         </tbody >
       </Table >
-
+      </>
     );
-
   }
-
-
-
-}
+  
+  }
+  

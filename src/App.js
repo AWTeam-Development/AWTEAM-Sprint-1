@@ -1,8 +1,8 @@
 
-import './App.css';
+import './App.scss';
 import FooterReact from './components/FooterReact';
 import NavbarReact from './components/NavbarReact';
-import TablaProductos from './components/productos/TablaProductos';
+import CardsProductos from './components/productos/CardsProductos';
 
 
 function App() {
@@ -15,12 +15,9 @@ function App() {
      {/*<header className="App-header"></header>*/} 
 
       <NavbarReact/>
-   
-      <div className='container'>
 
-      <TablaProductos/>
+      <CardsProductos/>
 
-      </div>
 
       <FooterReact/>
 

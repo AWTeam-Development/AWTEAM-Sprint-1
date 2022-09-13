@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  opacity: 0.96;
+  opacity: 0.93;
 }
 
 .App-logo {
@@ -36,4 +36,35 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+#cardsTable{
+  background-color: rgb(41, 39, 39);
+  color: white;
+  opacity: 1 ;
+  width: 80%;
+  height: 100%;
+  padding: 0.5em;
+  margin: 0em;
+
+  div.card-footer{
+    background-color: rgb(37, 36, 36);
+    opacity:1;
+    border-radius: 1em;
+
+    div{
+      button{
+        background-color: #212529;
+      }
+
+     button:hover{
+        background-color: #474b4e;
+      }
+
+  }
+
+}
+
 }
