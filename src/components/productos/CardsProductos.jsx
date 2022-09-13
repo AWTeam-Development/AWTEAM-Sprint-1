@@ -5,6 +5,7 @@ import ApiProductosService from '../../services/productos/ProductosService';
 import detailsProdSvg from '../../assets/images/icons-crud/details-product.svg';
 import editProdSvg from '../../assets/images/icons-crud/edit-product.svg';
 import deleteProdSvg from '../../assets/images/icons-crud/delete-product.svg';
+import BuscadorAsideProductos from './BuscadorAsideProductos';
 
 
 
@@ -37,19 +38,24 @@ export default class CardsProductos extends React.Component {
   render() {
     return (
 
-<div className='container'>
-  <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3  row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center">
+
+<div className='d-flex d-row'>
+
+
+<BuscadorAsideProductos/>
+
+  <div className="container row row-cols-2 row-cols-sm-2 row-cols-md-3  row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center ms-1">
 
         {
           this.state.productos.map(producto =>
             
             <div className='col'>
             <div className="card h-100 w-100 " id="cardsTable" key={producto.id}>
-            <strong>{producto.codigo}</strong>
+            <p className='small m-0'>{producto.codigo}</p>
               <img src={producto.imagen} target="_blank" width="120px" height="150px" className="card-img-top m-0" alt='imagen del componente'/>
               <div className="card-body text-center p-1">
-          
-                <p>{producto.nroPieza} / {producto.categoria.substring(0,18)}.. / {producto.fabricante}</p>
+
+                <p className='small'>{producto.nroPieza} / {producto.categoria.substring(0,18)}.. / {producto.fabricante}</p>
 
                 <hr />
                 

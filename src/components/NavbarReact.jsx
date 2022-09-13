@@ -16,14 +16,14 @@ export default class NavbarReact extends React.Component {
 
           <Navbar.Brand href="#home">
           <img src={Logo} alt="" width="40" height="40" className="d-inline-block align-text-center m-2 "></img>
-          Gestión
+          MicroElectrónica
           </Navbar.Brand>
           <Nav className="me-1">
-            <Nav.Link href="/inicio">Inicio</Nav.Link>
-            <Nav.Link href="http://inversiones.com">Listado</Nav.Link>
-            <Nav.Link href="/empresas">Agregar </Nav.Link>
-            <Nav.Link href="/nosotros">Nosotros</Nav.Link>
-            <Nav.Link href="/ayuda">Ayuda</Nav.Link>
+            <Nav.Link href="/listado">Inicio</Nav.Link>
+            <Nav.Link href="/listado">Listado</Nav.Link>
+            <Nav.Link href="/agregar">Agregar </Nav.Link>
+            <Nav.Link href="/#">Nosotros</Nav.Link>
+            <Nav.Link href="/#">Ayuda</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

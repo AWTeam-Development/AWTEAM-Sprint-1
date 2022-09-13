@@ -1,8 +1,16 @@
 
 import './App.scss';
+
+//Componentes
 import FooterReact from './components/FooterReact';
 import NavbarReact from './components/NavbarReact';
 import CardsProductos from './components/productos/CardsProductos';
+
+//Rutas
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router";
+import DetalleProductos from './components/productos/DetalleProductos';
+
 
 
 function App() {
@@ -12,16 +20,27 @@ function App() {
     <div className="App">
 
 
-     {/*<header className="App-header"></header>*/} 
+      {/*<header className="App-header"></header>*/}
 
-      <NavbarReact/>
-
-      <CardsProductos/>
+      <NavbarReact />
 
 
-      <FooterReact/>
+      <Router>
+
+           
+                   <Routes>
+                         <Route path = "/listado" element={<CardsProductos />}></Route>
+
+                         <Route path = "/detalle" element={<DetalleProductos/>}></Route>
+                         
+                   </Routes>
+    
+           
+     </Router>
 
 
+
+     <FooterReact />
 
     </div>
   );
