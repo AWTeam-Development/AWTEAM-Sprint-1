@@ -7,9 +7,14 @@ const URL_COMPONENTES = 'http://localhost:8096/v1/componentes/';
 
 class ApiProductosService {
     
-    
-    getProductos(nroPage, nroElementos, orderType, orderBy){
-        return axios.get(`${URL_COMPONENTES}listado?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
+    getProductosList(nroPage, nroElementos, orderType, orderBy){
+        return axios
+        .get(`${URL_COMPONENTES}listado?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
+    }
+   
+    getProductosFilter(orderField, orderFilter,nroPage, nroElementos, orderType, orderBy){
+        return axios
+        .get(`${URL_COMPONENTES}${orderField}/${orderFilter}?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
     }
     
 
