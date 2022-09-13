@@ -1,7 +1,19 @@
 
-import './App.css';
+import './App.scss';
+
+//Rutas
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router";
+
+
+//Componentes
+import FooterReact from './components/FooterReact';
 import NavbarReact from './components/NavbarReact';
-import TablaProductosReact from './components/TablaProductosReact';
+import CardsProductos from './components/productos/CardsProductos';
+
+import DetalleProductos from './components/productos/DetalleProductos';
+
+
 
 function App() {
 
@@ -10,15 +22,24 @@ function App() {
     <div className="App">
 
 
-     {/*<header className="App-header"></header>*/} 
+      {/*<header className="App-header"></header>*/}
 
-      <NavbarReact></NavbarReact>
-   
-      <div className='content'>
-      <TablaProductosReact></TablaProductosReact>
+    
+      <NavbarReact />
+  
 
-      </div>
+      <Router>
+                   <Routes>
+                         <Route path = "/listado" element={<CardsProductos />}></Route>
 
+                         <Route path = "/detalle" element={<DetalleProductos/>}></Route>
+                         
+                   </Routes>       
+     </Router>
+
+
+
+     <FooterReact />
 
     </div>
   );
