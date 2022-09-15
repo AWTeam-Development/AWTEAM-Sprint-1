@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const URL_COMPONENTES = 'http://localhost:8096/v1/componentes/';
+const URL_COMPONENTES = 'http://localhost:8096/api/v1/componentes/';
 
 
 
