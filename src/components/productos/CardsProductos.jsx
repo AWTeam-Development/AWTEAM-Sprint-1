@@ -37,36 +37,32 @@ import ApiProductosService from '../../services/productos/ProductosService';
 
 export default class CardsProductos extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
-    
-  this.state = {
-    productos: [],
-    isOpen:false,
-    isOpenModalAyuda: false,
-    productoSelect:0
+
+    this.state = {
+      productos: [],
+      isOpen: false,
+      isOpenModalAyuda: false,
+      productoSelect: 0
+
+    }
+
+
+    this.openModal = () => this.setState({ isOpen: true });
+
+
+    this.closeModal = () => this.setState({ isOpen: false });
+
+
+    this.openModalAyuda = () => this.setState({ isOpenModalAyuda: true });
+
+
+    this.closeModalAyuda = () => this.setState({ isOpenModalAyuda: false });
+
 
   }
-
-
-  this.openModal = () => this.setState({ isOpen: true });
-
-
-  this.closeModal = () => this.setState({ isOpen: false });
-
-  
-  this.openModalAyuda = () => this.setState({ isOpenModalAyuda: true });
-
-
-  this.closeModalAyuda = () => this.setState({ isOpenModalAyuda: false });
-
-
-  }
-
-
-
-
 
 
 
@@ -414,8 +410,8 @@ export default class CardsProductos extends React.Component {
 
             {/*Fin Grafico*/}
 
-                {/*Ayuda*/}
-                <div className='me-0 bg-dark mt-2'>
+            {/*Ayuda*/}
+            <div className='me-0 bg-dark mt-2'>
               <button type="button" className='btn p-1' onClick={this.openModalAyuda}>
                 <img src={ayuda} alt="" width="25" height="25" title="Ayuda" className="" />
               </button>
@@ -462,8 +458,6 @@ export default class CardsProductos extends React.Component {
                       <div className="card-footer mt-3">
                         <div className="btn-group d-sm-block d-flex justify-content-center me-0 mb-0" role="group">
                           <div className="d-flex justify-content-center">
-                            {/*Btn Modal Visualizar Producto*/}
-
 
                             {/*Btn Modal Visualizar Producto*/}
                             <Button type='button' className="btn btn-primary border-secondary alert-link m-1 p-1" onClick={this.openModal}>
@@ -576,40 +570,205 @@ export default class CardsProductos extends React.Component {
 
 
         {/*MODAL Ayuda */}
-   
-          <Modal  show={this.state.isOpenModalAyuda} onHide={this.closeModalAyuda}>
-            <Modal.Header className='bg-dark text-white' closeButton>
-              <Modal.Title className='bg-dark text-white'>Guía Listado de Productos</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className='bg-dark text-white'>
-                  <h5>Acerca de la Gestión de Productos</h5>
-                  <p>
-                    En esta sección podemos visualizar los Productos según los requerimientos deseados, existe paginacion de productos, podemos aplicar filtros de búsqueda y las operaciones CRUD requeridas según el rol que se tenga. Los admins podrán
-                    realizar todas las Operaciones, los usuarios solamente la visualización y búsquedas.
-                  </p>
-                  <br />
-                  <h5>Buscador de Productos</h5>
-                  <p>Es posible realizar la búsqueda de productos según filtros aplicados para cada campo del Listado. Es decir, las siglas o palabras ingresadas serán aplicadas para todos los campos.</p>
-                  <br />
-                  <h5>Campos del Listado</h5>
-                  <p>
-                    Cada campo describe una característica del producto específico por fila. El campo opciones nos permite visualizar, editar y eliminar el producto seleccionado. También podemos agregar un producto desde la barra de navegación.
-                  </p>
-                  <ul>
-                    <li><strong>Código:</strong> Este código hace referencia al producto, no es posible que existan duplicados, es válido solo letras, números y ciertos caracteres. Además de un máximo de 10 digitos.</li>
-                    <li><strong>Nombre:</strong> El nombre hace referencia mismo al producto. A comparación de la descripción, este es una acotación para la clasificación de los productos.</li>
-                  </ul>
-                  <div className="mt-5">
-                    <strong>CONTENIDO PARCIALMENTE DISPONIBLE, CONTACTAR AL DESARROLLADOR</strong>
+
+        <div className='bg-dark'>
+          <Modal size='lg' show={this.state.isOpenModalAyuda} onHide={this.closeModalAyuda}>
+
+            <Modal.Body className='bg-dark text-white border-dark'>
+              <h5>
+                <div class="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+                  Acerca de la Gestión de Componentes
+                </div>
+
+              </h5>
+              <p>
+                En esta sección podemos visualizar los Componentes según los requerimientos deseados, existe paginacion de Componentes, podemos aplicar filtros de búsqueda y las operaciones CRUD requeridas según el rol que se tenga. Los admins podrán
+                realizar todas las Operaciones, los usuarios solamente la visualización y búsquedas.
+              </p>
+              <br />
+              <h5>
+                <div className="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+                  Filtros/Búsquedas de Componentes
+                </div>
+
+              </h5>
+              <p>
+                Podemos realizar búsquedas de componentes según la categoría deseada (transistores Mosfet, Capacitores, etc), a través de sus Tipos (Transis. NPN/PNP/Mosfet N/ Mosfet NP, etc). También es posible la búsqueda según su fabricante (Hitachi, Panasonic, etc). Por último se incluye la funcionalidad de búsquedas a través del buscador de componentes.
+              </p>
+              <br />
+
+              <h5>  <div class="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+                Campos de Componentes
+              </div>
+              </h5>
+              <p>
+                Cada campo describe una característica del Componentes específico por fila. Cada Componente posee la funcionalidad de visualizar, editar y eliminar. También podemos agregar un Componentes desde la barra de navegación izquierda de la app.
+              </p>
+
+
+
+
+
+                {/*ACCORDION CAMPOS*/}
+              <div className='mt-5 ms-5 me-5'>
+
+                <div class="accordion ms-3 me-3" id="accordionPanelsStayOpenExample">
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header " id="panelsStayOpen-headingOne">
+                      <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <strong> <li>Código</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                      <div class="accordion-body">
+                        Este código hace referencia al Componente, no es posible que existan duplicados, es válido solo letras, números y ciertos caracteres.<code> Además de un máximo de 100 caracteres.</code>
+                      </div>
+                    </div>
                   </div>
-             
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-secondary text-white" id="panelsStayOpen-headingTwo">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        <strong> <li>Imagen</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingTwo">
+                      <div class="accordion-body bg-dark text-white">
+                        La imagen del Componente se almacena en los servidores del repositorio del proyecto<code>. Solo se permiten caracteres formato URL.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingThree">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        <strong> <li>Datasheet</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingThree">
+                      <div class="accordion-body bg-dark text-white">La Hoja de datos representa todas las específicaciones técnicas del componente en <code>formato pdf.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingFour">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                        <strong> <li>Nro.Pieza</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingFour">
+                      <div class="accordion-body bg-dark text-white">   El nro de pieza hace referencia mismo al Componente. A comparación de la código, este
+                        <code> es una acotación para la clasificación de los Componentes.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingFive">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                        <strong> <li>Categoría</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingFive">
+                      <div class="accordion-body bg-dark text-white">Todos los componentes se almacenan en el sistema según su categoría. Diferenciadas según el componente y tipo <code> (Transistores BJT, Transistores Mosfet, etc).</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingSix">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
+                        <strong> <li>Descripción</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingSix">
+                      <div class="accordion-body bg-dark text-white">Nos indica el Nombre y Tipo detallado del componente . <code> Este campo no podrá exceder los 200 carácteres.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingSeven">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                        <strong> <li>Fabricante</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingSeven">
+                      <div class="accordion-body bg-dark text-white">Existen inumerables fabricantes para el listado de componentes. Algunos de ellos son  <code> Hitachi, Panasonic, Slkor, Microchip, etc.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingEight">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false" aria-controls="panelsStayOpen-collapseEight">
+                        <strong> <li>Stock</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingEight">
+                      <div class="accordion-body bg-dark text-white">El stock no puede ser cero y debe estar por arriba de los 10 componentes.  <code> Su Máximo son 10.000 unidades.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="accordion-item bg-dark text-white">
+                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingNine">
+                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false" aria-controls="panelsStayOpen-collapseNine">
+                        <strong> <li>Precio</li></strong>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingNine">
+                      <div class="accordion-body bg-dark text-white">Todos los precios de se manejan en dolares. Es posible que se agregue una <code> nueva funcionalidad para la conversión de tipo de moneda.</code>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+              </div>
+
+              {/*FIN ACCORDION CAMPOS*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div className="text-left mt-5 ms-0 ">
+                <strong className='text-decoration-underline'>Soporte Técnico</strong> : andres96energy@hotmail.com
+              </div>
             </Modal.Body>
-            <Modal.Footer className='bg-dark text-white'>
-              <Button closeButton variant="dark">Cerrar</Button>
+            <Modal.Footer className='bg-dark text-white border-dark'>
+
+              <Button variant="secondary" onClick={this.closeModalAyuda} >Cerrar</Button>
             </Modal.Footer>
           </Modal>
-        
-{/*Fin MODAL Ayuda */}
+
+        </div>
+
+        {/*Fin MODAL Ayuda */}
 
 
 
@@ -619,55 +778,54 @@ export default class CardsProductos extends React.Component {
 
         {/*MODAL Detalle Productos */}
         <div>
-          <Modal show={this.state.isOpen} onHide={this.closeModal}>
-            <Modal.Header closeButton>
+          <Modal size='lg' show={this.state.isOpen} onHide={this.closeModal}>
+            <Modal.Header variant="dark" closeButton>
               <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Table striped bordered hover variant="dark" classNameNameName='table-condensed m-2'>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Imagen</th>
-            <th>Datasheet</th>
-            <th>NroPieza</th>
-            <th>Categoría</th>
-            <th>Descripción</th>
-            <th>Fabricante</th>
-            <th>Stock</th>
-            <th>Precio</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            this.state.productos.map(producto =>
-              <tr key={producto.id}>
-                <td>{producto.codigo.substring(0, 12)}...</td>
+              <Table striped bordered hover variant="dark" classNameNameName='table-condensed m-2'>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Imagen</th>
+                    <th>Datasheet</th>
+                    <th>NroPieza</th>
+                    <th>Categoría</th>
+                    <th>Descripción</th>
+                    <th>Fabricante</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    this.state.productos.map(producto =>
+                      <tr key={producto.id}>
+                        <td>{producto.codigo.substring(0, 12)}...</td>
 
-                <td >
-                  <div classNameName='border-rounded-circle bg-white'>
-                  <img src={producto.imagen} target="_blank" width="40px" height="40px" alt="imagen del componente" />
-                  </div>
-                </td>
-                <td >
-                  <div classNameName='border-rounded-circle bg-white'>
-                  <img src={producto.datasheet} target="_blank" width="40px" height="40px" alt="imagen del componente" />
-                  </div>
-                </td>
+                        <td >
+                          <div classNameName='border-rounded-circle bg-white'>
+                            <img src={producto.imagen} target="_blank" width="40px" height="40px" alt="imagen del componente" />
+                          </div>
+                        </td>
+                        <td >
+                          <div classNameName='border-rounded-circle bg-white'>
+                            <img src={producto.datasheet} target="_blank" width="40px" height="40px" alt="imagen del componente" />
+                          </div>
+                        </td>
 
-                <td>{producto.nroPieza}</td>
-                <td>{producto.categoria}</td>
-                <td>{producto.descripcion.substring(0, 20)}...</td>
-                <td>{producto.fabricante}</td>
-                <td>{producto.stock}u</td>
-                <td>us${producto.precio}</td>
-               
-              </tr >
-            )
-          }
-        </tbody >
-      </Table >
+                        <td>{producto.nroPieza}</td>
+                        <td>{producto.categoria}</td>
+                        <td>{producto.descripcion.substring(0, 20)}...</td>
+                        <td>{producto.fabricante}</td>
+                        <td>{producto.stock}u</td>
+                        <td>us${producto.precio}</td>
+
+                      </tr >
+                    )
+                  }
+                </tbody >
+              </Table >
 
 
 
@@ -677,7 +835,7 @@ export default class CardsProductos extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-{/*Fin MODAL Detalle Productos */}
+        {/*Fin MODAL Detalle Productos */}
 
 
 
