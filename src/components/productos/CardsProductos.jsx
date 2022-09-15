@@ -1,4 +1,3 @@
-import React from 'react';
 
 //Images
 //Crud
@@ -19,17 +18,16 @@ import arrowLastRight from '../../assets/images/pagination/arrowLastRight.png';
 import product from '../../assets/images/icons/product.png';
 import price from '../../assets/images/icons/price-tag.png';
 
-
+//Bootstrap-React
 import { Modal, Button } from "react-bootstrap";
 import { Table } from 'react-bootstrap';
 
 
 
-
-
-
-
+//Componentes
+import React from 'react';
 import ApiProductosService from '../../services/productos/ProductosService';
+import AccordionModalAyuda from './AccordionModalAyuda';
 
 
 
@@ -37,15 +35,38 @@ import ApiProductosService from '../../services/productos/ProductosService';
 
 export default class CardsProductos extends React.Component {
 
+  
+
   constructor(props) {
     super(props);
 
 
     this.state = {
+
+      //Productos
       productos: [],
+      productoSelect: 0,
+
+      //Pagination
+      isFirstPage : false,
+      isLastPage : false,
+      nroPage : 0,
+      nroTotalPages : 0,
+      nroGetElements:10,
+      nroCurrentElements : 0,
+      nroTotalElements : 0,
+      orderType : 'id',
+      orderBy : 'asc',
+
+      //Filters
+      filterBy:'',
+      filterField:'',
+
+     
+      //Modals
       isOpen: false,
       isOpenModalAyuda: false,
-      productoSelect: 0
+      
 
     }
 
@@ -70,35 +91,33 @@ export default class CardsProductos extends React.Component {
 
   //Config Listados Paginados
 
-  getProductosList(nroPage, nroElementos, orderType, orderBy) {
-    ApiProductosService.getProductosList(nroPage, nroElementos, orderType, orderBy)
+  listarComp() {
+    ApiProductosService.getProductosList(this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
         this.setState({ productos: response.data.content });
         console.log(response.data.content);
       })
       .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
+        console.log('No se ha podido listar los componentes. Causado por : ', ex);
       });;
   }
 
 
-  getProductosFilter(orderField, orderFilter, nroPage, nroElementos, orderType, orderBy) {
-    ApiProductosService.getProductosFilter(orderField, orderFilter, nroPage, nroElementos, orderType, orderBy)
+  listarCompFilter(filterField, filterBy) {
+    ApiProductosService.getProductosFilter(filterField, filterBy, this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
         this.setState({ productos: response.data.content });
         console.log(response.data.content);
       })
       .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
+        console.log('No se ha podido listar los componentes con filtro. Causado por : ', ex);
       });;
   }
-
-
 
 
   //cargamos el listado 
   componentDidMount() {
-    this.getProductosList(0, 10, 'id', 'asc');
+    this.listarComp();
   }
 
 
@@ -134,58 +153,58 @@ export default class CardsProductos extends React.Component {
                 <h5 className="offcanvas-title text-decoration-underline" id="offcanvasCategLabel mt-2 mb-4">Categorías de Productos</h5>
                 <ul className='mt-3'>
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Transistores BJT', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Transistores BJT')}>
                       Transistores BJT
                     </button>
                   </li>
 
 
                   <li className='mt-1 p-1'>
-                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Transistores MOSFET', 0, 10, 'id', 'asc')}>
+                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Transistores MOSFET')}>
                       Transistores Mosfet
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Capacitores Electroliticos', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Capacitores Electroliticos')}>
                       Capacitores Electr.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Resistores de Alta Frecuencia', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Resistores de Alta Frecuencia')}>
                       Resistores Alta Frec.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Microcontroladores PICS', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Microcontroladores PICS')}>
                       Microcontroladores Pics.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Microcontroladores AVRS', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Microcontroladores AVRS')}>
                       Microcontroladores Avrs.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Placas Arduino', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Arduino')}>
                       Placas Arduino.
                     </button>
                   </li>
 
                   <li className='mt-1'>
                     <button type="button" class="btn"
-                      data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Placas Esp8266', 0, 10, 'id', 'asc')}>
+                      data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Esp8266')}>
                       Placas Esp8266.
                     </button>
                   </li>
 
                   <li className='mt-1'>
                     <button type="button" class="btn"
-                      data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('categoria', 'Placas Esp32', 0, 10, 'id', 'asc')}>
+                      data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Esp32')}>
                       Placas Esp32.
                     </button>
                   </li>
@@ -213,55 +232,55 @@ export default class CardsProductos extends React.Component {
                 <h5 className="offcanvas-title text-decoration-underline" id="offcanvasTiposLabel mt-2 mb-4">Tipos de Productos</h5>
                 <ul className='mt-3'>
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Transistor BJT NPN', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Transistor BJT NPN')}>
                       Transistores BJT NPN
                     </button>
                   </li>
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Transistor BJT PNP', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Transistor BJT PNP')}>
                       Transistores BJT PNP
                     </button>
                   </li>
 
 
                   <li className='mt-1 p-1'>
-                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Transistor Mosfet NP', 0, 10, 'id', 'asc')}>
+                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Transistor Mosfet NP')}>
                       Transistores Mosfet NP
                     </button>
                   </li>
 
                   <li className='mt-1 p-1'>
-                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Transistor Mosfet N', 0, 10, 'id', 'asc')}>
+                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Transistor Mosfet N')}>
                       Transistores Mosfet N
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Aluminio Radial', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Aluminio Radial')}>
                       Capac. Electr. Alum. Radial
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Aluminio Axial', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Aluminio Axial')}>
                       Capac. Electr. Alum. Axial
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Aluminio Terminal Roscado', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Aluminio Terminal Roscado')}>
                       Capac. Electr. Alum. Term. Rosc.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Encaje a Presión', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Encaje a Presión')}>
                       Capac. Electr. Alum. Encaj a Pres.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('descripcion', 'Polimero Organico', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('descripcion', 'Polimero Organico')}>
                       Capac. Electr. Pol. Orgánico
                     </button>
                   </li>
@@ -291,85 +310,85 @@ export default class CardsProductos extends React.Component {
                 <h5 className="offcanvas-title text-decoration-underline" id="offcanvasFabricLabel mt-2 mb-4">Fabricantes de Productos</h5>
                 <ul className='mt-3'>
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'SHANTOU HUASHAN', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'SHANTOU HUASHAN')}>
                       Shantou Huashan
                     </button>
                   </li>
 
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'Advanced Power', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'Advanced Power')}>
                       Advanced Power
                     </button>
                   </li>
 
 
                   <li className='mt-1 p-1'>
-                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'INCHANGE SEMICONDUCTOR', 0, 10, 'id', 'asc')}>
+                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'INCHANGE SEMICONDUCTOR')}>
                       Inchange Semiconductor
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'CENTRAL SEMICONDUCTOR', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'CENTRAL SEMICONDUCTOR')}>
                       Central Semiconductor
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'STMicroelectronics', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'STMicroelectronics')}>
                       STMicroelectronics
                     </button>
                   </li>
 
                   <li className='mt-1'>
                     <button type="button" class="btn"
-                      data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'Renesas Electronics', 0, 10, 'id', 'asc')}>
+                      data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'Renesas Electronics')}>
                       Renesas Electronics
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'Slkor', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'Slkor')}>
                       Slkor
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'VISHAY', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'VISHAY')}>
                       Vishay
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'Quanshan', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'Quanshan')}>
                       Quanshan
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'Shenzhen', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'Shenzhen')}>
                       Shenzhen
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'PANASONIC', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'PANASONIC')}>
                       Panasonic
                     </button>
                   </li>
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'HITACHI', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'HITACHI')}>
                       Hitachi
                     </button>
                   </li>
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'ELNA', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'ELNA')}>
                       Elna
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.getProductosFilter('fabricante', 'RUBYCON', 0, 10, 'id', 'asc')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('fabricante', 'RUBYCON')}>
                       Rubycon
                     </button>
                   </li>
@@ -382,7 +401,7 @@ export default class CardsProductos extends React.Component {
 
             {/*Refresh*/}
             <div className='me-0 bg-dark mt-2'>
-              <button type="button" className='btn p-1' onClick={() => this.getProductosList(0, 10, 'id', 'asc')}>
+              <button type="button" className='btn p-1' onClick={() => this.listarComp()}>
                 <img src={refresh} alt="" width="25" height="25" title="Limpiar Filtros" className="" />
               </button>
             </div>
@@ -392,7 +411,7 @@ export default class CardsProductos extends React.Component {
 
             {/*Add*/}
             <div className='me-0 bg-dark mt-5'>
-              <button type="button" className='btn p-1' onClick={() => this.getProductosList(0, 10, 'id', 'asc')}>
+              <button type="button" className='btn p-1' onClick={() => this.listarComp(0, 10, 'id', 'asc')}>
                 <img src={addProduct} alt="" width="25" height="25" title="Agregar Producto" className="" />
               </button>
             </div>
@@ -403,7 +422,7 @@ export default class CardsProductos extends React.Component {
 
             {/*Grafico*/}
             <div className='me-0 bg-dark mt-2'>
-              <button type="button" className='btn p-1' onClick={() => this.getProductosList(0, 10, 'id', 'asc')}>
+              <button type="button" className='btn p-1' onClick={() => this.listarComp(0, 10, 'id', 'asc')}>
                 <img src={grafico} alt="" width="25" height="25" title="Gráfico" className="" />
               </button>
             </div>
@@ -503,7 +522,7 @@ export default class CardsProductos extends React.Component {
               <nav aria-label="..." className="bg-none text-white">
                 <ul className="pagination pagination-lg bg-none text-white border-light alert-link">
                   <li className="page-item bg-none text-white" >
-                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.getProductosList(0, 10, 'id', 'asc')}>
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(0, 10, 'id', 'asc')}>
                       <img src={arrowLastLeft} width="15" height="15" alt="" />
                     </button>
                   </li>
@@ -513,12 +532,12 @@ export default class CardsProductos extends React.Component {
                     </button>
                   </li>
                   <li className="page-item">
-                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.getProductosList(0, 10, 'id', 'asc')}>1</button>
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(0, 10, 'id', 'asc')}>1</button>
                   </li>
                   <li className="page-item">
-                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.getProductosList(1, 10, 'id', 'asc')}>2</button>
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(1, 10, 'id', 'asc')}>2</button>
                   </li>
-                  <li className="page-item"><button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.getProductosList(2, 10, 'id', 'asc')}>3</button></li>
+                  <li className="page-item"><button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(2, 10, 'id', 'asc')}>3</button></li>
                   <li className="page-item">
                     <button className="btn btn-md btn-outline-dark border-light alert-link text-white">
                       <img src={arrowRight} width="15" height="15" alt="" />
@@ -576,188 +595,42 @@ export default class CardsProductos extends React.Component {
 
             <Modal.Body className='bg-dark text-white border-dark'>
               <h5>
-                <div class="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+                <div class="bg-secondary text-white text-center p-1 ms-2 me-2" role="alert">
                   Acerca de la Gestión de Componentes
                 </div>
 
               </h5>
-              <p>
+              <p className=' p-1 ms-2 me-2'>
                 En esta sección podemos visualizar los Componentes según los requerimientos deseados, existe paginacion de Componentes, podemos aplicar filtros de búsqueda y las operaciones CRUD requeridas según el rol que se tenga. Los admins podrán
                 realizar todas las Operaciones, los usuarios solamente la visualización y búsquedas.
               </p>
               <br />
               <h5>
-                <div className="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+                <div className="bg-secondary text-white  text-center p-1 ms-2 me-2" role="alert">
                   Filtros/Búsquedas de Componentes
                 </div>
 
               </h5>
-              <p>
+              <p className=' p-1 ms-2 me-2'>
                 Podemos realizar búsquedas de componentes según la categoría deseada (transistores Mosfet, Capacitores, etc), a través de sus Tipos (Transis. NPN/PNP/Mosfet N/ Mosfet NP, etc). También es posible la búsqueda según su fabricante (Hitachi, Panasonic, etc). Por último se incluye la funcionalidad de búsquedas a través del buscador de componentes.
               </p>
               <br />
 
-              <h5>  <div class="alert alert-secondary text-center p-1 ms-2 me-2" role="alert">
+              <h5>  <div class="bg-secondary text-white text-center p-1 ms-2 me-2" role="alert">
                 Campos de Componentes
               </div>
               </h5>
-              <p>
+              <p className=' p-1 ms-2 me-2'>
                 Cada campo describe una característica del Componentes específico por fila. Cada Componente posee la funcionalidad de visualizar, editar y eliminar. También podemos agregar un Componentes desde la barra de navegación izquierda de la app.
               </p>
 
 
-
-
-
-                {/*ACCORDION CAMPOS*/}
-              <div className='mt-5 ms-5 me-5'>
-
-                <div class="accordion ms-3 me-3" id="accordionPanelsStayOpenExample">
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header " id="panelsStayOpen-headingOne">
-                      <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        <strong> <li>Código</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                      <div class="accordion-body">
-                        Este código hace referencia al Componente, no es posible que existan duplicados, es válido solo letras, números y ciertos caracteres.<code> Además de un máximo de 100 caracteres.</code>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-secondary text-white" id="panelsStayOpen-headingTwo">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                        <strong> <li>Imagen</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingTwo">
-                      <div class="accordion-body bg-dark text-white">
-                        La imagen del Componente se almacena en los servidores del repositorio del proyecto<code>. Solo se permiten caracteres formato URL.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingThree">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                        <strong> <li>Datasheet</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingThree">
-                      <div class="accordion-body bg-dark text-white">La Hoja de datos representa todas las específicaciones técnicas del componente en <code>formato pdf.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingFour">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
-                        <strong> <li>Nro.Pieza</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingFour">
-                      <div class="accordion-body bg-dark text-white">   El nro de pieza hace referencia mismo al Componente. A comparación de la código, este
-                        <code> es una acotación para la clasificación de los Componentes.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingFive">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                        <strong> <li>Categoría</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingFive">
-                      <div class="accordion-body bg-dark text-white">Todos los componentes se almacenan en el sistema según su categoría. Diferenciadas según el componente y tipo <code> (Transistores BJT, Transistores Mosfet, etc).</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingSix">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
-                        <strong> <li>Descripción</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingSix">
-                      <div class="accordion-body bg-dark text-white">Nos indica el Nombre y Tipo detallado del componente . <code> Este campo no podrá exceder los 200 carácteres.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingSeven">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
-                        <strong> <li>Fabricante</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingSeven">
-                      <div class="accordion-body bg-dark text-white">Existen inumerables fabricantes para el listado de componentes. Algunos de ellos son  <code> Hitachi, Panasonic, Slkor, Microchip, etc.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingEight">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false" aria-controls="panelsStayOpen-collapseEight">
-                        <strong> <li>Stock</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingEight">
-                      <div class="accordion-body bg-dark text-white">El stock no puede ser cero y debe estar por arriba de los 10 componentes.  <code> Su Máximo son 10.000 unidades.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="accordion-item bg-dark text-white">
-                    <h2 class="accordion-header bg-dark text-white" id="panelsStayOpen-headingNine">
-                      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false" aria-controls="panelsStayOpen-collapseNine">
-                        <strong> <li>Precio</li></strong>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse bg-dark text-white" aria-labelledby="panelsStayOpen-headingNine">
-                      <div class="accordion-body bg-dark text-white">Todos los precios de se manejan en dolares. Es posible que se agregue una <code> nueva funcionalidad para la conversión de tipo de moneda.</code>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                </div>
-
-              </div>
-
+              {/*ACCORDION CAMPOS*/}
+              <AccordionModalAyuda/>
               {/*FIN ACCORDION CAMPOS*/}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
               <div className="text-left mt-5 ms-0 ">
-                <strong className='text-decoration-underline'>Soporte Técnico</strong> : andres96energy@hotmail.com
+                <strong className='text-decoration-underline p-1 ms-2 me-2'>Soporte Técnico</strong> : andres96energy@hotmail.com
               </div>
             </Modal.Body>
             <Modal.Footer className='bg-dark text-white border-dark'>

@@ -12,9 +12,9 @@ class ApiProductosService {
         .get(`${URL_COMPONENTES}listado?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
     }
    
-    getProductosFilter(orderField, orderFilter,nroPage, nroElementos, orderType, orderBy){
+    getProductosFilter(filterField, filterBy, nroPage, nroElementos, orderType, orderBy){
         return axios
-        .get(`${URL_COMPONENTES}${orderField}/${orderFilter}?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
+        .get(`${URL_COMPONENTES}${filterField}/${filterBy}?page=${nroPage}&size=${nroElementos}&sort=${orderType},${orderBy}`);
     }
     
 
