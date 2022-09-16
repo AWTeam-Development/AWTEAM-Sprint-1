@@ -83,18 +83,28 @@ export default class CardsProductos extends React.Component {
     this.closeModalAyuda = () => this.setState({ isOpenModalAyuda: false });
 
 
+ 
+
   }
 
 
 
 
 
-  //Config Listados Paginados
+  //====== LISTADOS PAGINADOS ==========
 
   listarComp() {
     ApiProductosService.getProductosList(this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
-        this.setState({ productos: response.data.content });
+        this.setState({ 
+          productos: response.data.content,
+          nroTotalPages: response.data.totalPages,
+          nroCurrentElements :response.data.numberOfElements,
+          nroTotalElements : response.data.totalElements,
+          isFirstPage : response.data.first, 
+          isLastPage : response.data.last
+         });
+       
         console.log(response.data.content);
       })
       .catch(function (ex) {
@@ -106,13 +116,29 @@ export default class CardsProductos extends React.Component {
   listarCompFilter(filterField, filterBy) {
     ApiProductosService.getProductosFilter(filterField, filterBy, this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
-        this.setState({ productos: response.data.content });
+        this.setState({ 
+          productos: response.data.content,
+          nroTotalPages: response.data.totalPages,
+          nroCurrentElements :response.data.numberOfElements,
+          nroTotalElements : response.data.totalElements,
+          isFirstPage : response.data.first, 
+          isLastPage : response.data.last
+        
+        });
         console.log(response.data.content);
       })
       .catch(function (ex) {
         console.log('No se ha podido listar los componentes con filtro. Causado por : ', ex);
       });;
   }
+
+ 
+
+
+
+
+
+
 
 
   //cargamos el listado 
@@ -441,13 +467,18 @@ export default class CardsProductos extends React.Component {
           </div>
           {/*FIN FILTROS ASIDE*/}
 
+
+
+
+
+{/*CARDS PRODUCTOS*/}
           <div className="container row row-cols-1 row-m-1 row-cols-sm-2 row-cols-md-3  row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center ms-0">
 
             {
               this.state.productos.map(producto =>
 
                 <div className='col'>
-                  <div className="card h-80 w-100 " id="cardsTable" key={producto.id}>
+                  <div className="card h-80 w-100 " id="cardsProductos" key={producto.id}>
                     <p className='small m-0'>{producto.codigo.substring(0, 18)}..</p>
                     <img src={producto.imagen} target="_blank" width="120px" height="150px" className="card-img-top m-0" alt='imagen del componente' />
                     <div className="card-body text-center p-1">
@@ -510,6 +541,8 @@ export default class CardsProductos extends React.Component {
               )}
           </div>
 
+          {/*FIN CARDS PRODUCTOS*/}
+
 
 
         </div>
@@ -554,14 +587,14 @@ export default class CardsProductos extends React.Component {
 
                     <button className="btn btn-md btn-outline-dark border-light alert-link text-white"
                     >
-                      Página:
+                      Página: {this.state.nroPage + 1} / {this.state.nroTotalPages}
                     </button>
 
                   </li>
 
                   <li>
                     <button className="btn btn-md btn-outline-dark bg-none border-light alert-link text-white">
-                      Elementos:
+                      Elementos: {this.state.nroCurrentElements} / {this.state.nroTotalElements}
                     </button>
                   </li>
 

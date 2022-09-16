@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  opacity: 0.93;
+  opacity: 0.96;
   
 }
 
@@ -30,7 +30,38 @@
   }
 }
 
+#cardsProductos{
+  background-color: rgb(30, 39, 44);
+  color: white;
+  border-radius: 0.5em;
+  opacity: 1 ;
+  width: 80%;
+  height: 100%;
+  padding: 0.5em;
+  margin: 0em;
 
+  img{
+    border-radius: 0.5em;
+  }
+
+  div.card-footer{
+    background-color:none;
+    opacity:1;
+    border-radius: 1em;
+
+    div{
+      button{
+        background-color: rgb(30, 39, 44);
+      }
+
+     button:hover{
+        background-color: #474b4e;
+      }
+
+  }
+}
+
+}
 
 #cardsTable{
   background-color: rgb(30, 39, 44);
