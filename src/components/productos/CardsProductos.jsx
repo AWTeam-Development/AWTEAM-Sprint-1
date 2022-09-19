@@ -93,6 +93,8 @@ export default class CardsProductos extends React.Component {
     this.closeModalDatash = () => this.setState({ isOpenModalDatash: false });
 
 
+      
+
 
 
   }
@@ -133,9 +135,10 @@ export default class CardsProductos extends React.Component {
           nroCurrentElements: response.data.numberOfElements,
           nroTotalElements: response.data.totalElements,
           isFirstPage: response.data.first,
-          isLastPage: response.data.last
-
+          isLastPage: response.data.last,
+          
         });
+        console.log('listarCompFilter');
         console.log(response.data.content);
       })
       .catch(function (ex) {
@@ -144,7 +147,10 @@ export default class CardsProductos extends React.Component {
   }
 
   setFilter=(filtField, filtBy, page)=>{
-
+    this.setState({
+      filterField : '',
+      filterBy : ''
+  });
     if(filtField === '' || filtBy === null
     || filtBy === '' || filtBy === null){
       this.listarComp();
@@ -202,13 +208,17 @@ export default class CardsProductos extends React.Component {
 
   //cargamos el listado 
   componentDidMount() {
-    this.listarComp();
+    
+    if(this.state.filterField === '' 
+    && this.state.filterBy === ''){
+      this.listarComp();
+    }else{
+      this.listarCompFilter();
+    }
+    
     this.listarLastComp();
   }
 
-  componentDidUpdate(){
-    
-  }
 
 
 
