@@ -69,7 +69,7 @@ export default class CardsProductos extends React.Component {
       //Modals
       isOpen: false,
       isOpenModalAyuda: false,
-
+      isOpenModalDatash: false
 
     }
 
@@ -86,27 +86,18 @@ export default class CardsProductos extends React.Component {
     this.closeModalAyuda = () => this.setState({ isOpenModalAyuda: false });
 
 
+    
+    this.openModalDatash= () => this.setState({ isOpenModalDatash: true });
+
+
+    this.closeModalDatash = () => this.setState({ isOpenModalDatash: false });
+
+
 
 
   }
 
 
-  //Listado Ultimos Productos
-
-  listarLastComp() {
-    ApiProductosService.getProductosList(this.state.nroTotalPages, ((this.state.nroTotalElements) - (this.state.nroTotalElements - 2)), this.state.orderType, this.state.orderBy)
-      .then((response) => {
-        this.setState({
-          lastProductos: response.data.content,
-
-        });
-
-        console.log(response.data.content);
-      })
-      .catch(function (ex) {
-        console.log('No se ha podido listar los ultimos componentes agregados. Causado por : ', ex);
-      });;
-  }
 
 
 
@@ -133,8 +124,8 @@ export default class CardsProductos extends React.Component {
   }
 
 
-  listarCompFilter(filterField, filterBy) {
-    ApiProductosService.getProductosFilter(filterField, filterBy, this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
+  listarCompFilter() {
+    ApiProductosService.getProductosFilter(this.state.filterField, this.state.filterBy, this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
         this.setState({
           productos: response.data.content,
@@ -152,7 +143,55 @@ export default class CardsProductos extends React.Component {
       });;
   }
 
+  setFilter=(filtField, filtBy, page)=>{
 
+    if(filtField === '' || filtBy === null
+    || filtBy === '' || filtBy === null){
+      this.listarComp();
+    }else{
+      this.setState({
+        filterField : filtField,
+        filterBy : filtBy,
+        nroPage : page,
+    });
+    this.listarCompFilter();
+    }
+  }
+
+  //Listado Ultimos Productos
+
+  listarLastComp() {
+    ApiProductosService.getProductosList(this.state.nroTotalPages, ((this.state.nroTotalElements) - (this.state.nroTotalElements - 2)), this.state.orderType, this.state.orderBy)
+      .then((response) => {
+        this.setState({
+          lastProductos: response.data.content,
+
+        });
+
+        console.log(response.data.content);
+      })
+      .catch(function (ex) {
+        console.log('No se ha podido listar los ultimos componentes agregados. Causado por : ', ex);
+      });;
+  }
+
+
+  //cambiar pagina
+  setPage(page){
+
+    this.setState({
+      nroPage : page,
+    });
+
+    if(this.state.filterBy === '' 
+    || this.state.filterBy === null){
+
+      this.listarComp();
+
+    }else{
+      this.listarCompFilter();
+    }
+  }
 
 
 
@@ -167,6 +206,11 @@ export default class CardsProductos extends React.Component {
     this.listarLastComp();
   }
 
+  componentDidUpdate(){
+    
+  }
+
+
 
 
   render() {
@@ -174,25 +218,60 @@ export default class CardsProductos extends React.Component {
 
       <>
 
-      <div className='ms-5 me-5'>
-<div class="bg-dark text-white d-flex d-row mb-4 mt-2 ms-5 me-5" >
-  <div className='d-flex justify-content-start text-left p-2 me-3'>
-  MicroElectrónica / Productos / Filtrados por {this.state.filterField.toString}
-  </div>
+        <div className='ms-5 me-5'>
+          <div class="bg-dark text-white d-flex d-row mb-4 mt-2 ms-5 me-5" >
+            <div className='d-flex justify-content-start text-left p-2 me-3'>
+              MicroElectrónica / Productos / Filtrados por {this.state.filterField.toString}
+            </div>
 
-  <div className='d-flex justify-content-start text-left p-2 ms-5'>
-    <ul className='d-flex d-row list-unstyled'>
-      <li className='ms-3'>Transistores</li>
-      <li className='ms-3'>Capacitores</li>
-      <li className='ms-3'>Resistores</li>
-      
-    </ul>
-    
-  </div>
+            <div className='d-flex justify-content-start text-left p-2 ms-2' id='buscadorTop'>
+
+              <div className='d-flex d-row'>
 
 
-</div>
-</div>
+              <button className="btn btn-lg p-1 "  onClick={() => this.setFilter('categoria', 'Transistores', 0)}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/2656/2656266.png" width="40" height="40" alt="" />Transistores
+                          </div>
+                  </button>
+
+                  <button className="btn btn-lg p-1 "  onClick={() => this.setFilter('categoria', 'Capacitores',0)}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/2656/2656316.png" width="40" height="40" alt="" />Capacitores
+                          </div>
+                  </button>
+
+
+                  <button className="btn btn-lg p-1 "  onClick={() => this.setFilter('categoria', 'Resistores', 0)}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/2656/2656243.png" width="40" height="40" alt="" /> Resistores
+                          </div>
+                  </button>
+
+
+                  <button className="btn btn-lg p-1 "  onClick={() => this.setFilter('categoria', 'Microcontroladores',0)}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/2656/2656311.png" width="40" height="40" alt="" /> Microcontr.
+                          </div>
+                  </button>
+
+                  <button className="btn btn-lg p-1 "  onClick={() => this.setFilter('categoria', 'Placas',0)}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/2656/2656314.png" width="40" height="40" alt="" /> Placas Electr.
+                          </div>
+                  </button>
+             
+
+                  <button className="btn btn-lg p-1 "  onClick={this.openModalDatash}>
+                  <div class="badge bg-dark"><img src="https://cdn-icons-png.flaticon.com/512/3997/3997593.png" width="25" height="25" alt="" /> Datasheets.
+                          </div>
+                  </button>
+             
+
+                
+          
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
 
         <div className='d-flex d-row'>
 
@@ -214,64 +293,64 @@ export default class CardsProductos extends React.Component {
 
                 <button type="button" className="btn-close btn-secondary text-reset text-white bg-secondary " data-bs-dismiss="offcanvas" aria-label="Close"></button>
 
-
+                
               </div>
               <div className="offcanvas-body bg-dark text-white justify-content-left" id='buscadorAside'>
                 <h5 className="offcanvas-title text-decoration-underline" id="offcanvasCategLabel mt-2 mb-4">Categorías de Productos</h5>
                 <ul className='mt-3'>
                   <li className='bg-none'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Transistores BJT')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Transistores BJT',0)}>
                       Transistores BJT
                     </button>
                   </li>
 
 
                   <li className='mt-1 p-1'>
-                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Transistores MOSFET')}>
+                    <button type="button" className='btn p-1' data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Transistores MOSFET',0)}>
                       Transistores Mosfet
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Capacitores Electroliticos')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Capacitores Electroliticos',0)}>
                       Capacitores Electr.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Resistores de Alta Frecuencia')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Resistores de Alta Frecuencia',0)}>
                       Resistores Alta Frec.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Microcontroladores PICS')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Microcontroladores PICS',0)}>
                       Microcontroladores Pics.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Microcontroladores AVRS')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Microcontroladores AVRS',0)}>
                       Microcontroladores Avrs.
                     </button>
                   </li>
 
                   <li className='mt-1'>
-                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Arduino')}>
+                    <button type="button" class="btn" data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Placas Arduino',0)}>
                       Placas Arduino.
                     </button>
                   </li>
 
                   <li className='mt-1'>
                     <button type="button" class="btn"
-                      data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Esp8266')}>
+                      data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Placas Esp8266',0)}>
                       Placas Esp8266.
                     </button>
                   </li>
 
                   <li className='mt-1'>
                     <button type="button" class="btn"
-                      data-bs-dismiss="offcanvas" onClick={() => this.listarCompFilter('categoria', 'Placas Esp32')}>
+                      data-bs-dismiss="offcanvas" onClick={() => this.setFilter('categoria', 'Placas Esp32',0)}>
                       Placas Esp32.
                     </button>
                   </li>
@@ -606,7 +685,7 @@ export default class CardsProductos extends React.Component {
 
 
 
-{/*ULTIMOS AGREGADOS*/}
+          {/*ULTIMOS AGREGADOS*/}
           <div className='justify-content-end me-0'>
 
 
@@ -614,7 +693,7 @@ export default class CardsProductos extends React.Component {
 
               <div class="col-sm-10 ">
 
-              <div class="alert alert-primary" role="alert">
+                <div class="alert alert-primary" role="alert">
                   Últimos Agregados
                 </div>
                 {
@@ -657,7 +736,7 @@ export default class CardsProductos extends React.Component {
               </div>
             </div>
           </div>
-{/*FIN ULTIMOS AGREGADOS*/}
+          {/*FIN ULTIMOS AGREGADOS*/}
 
 
 
@@ -690,12 +769,12 @@ export default class CardsProductos extends React.Component {
                     </button>
                   </li>
                   <li className="page-item">
-                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(0, 10, 'id', 'asc')}>1</button>
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.setPage(0)}>1</button>
                   </li>
                   <li className="page-item">
-                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(1, 10, 'id', 'asc')}>2</button>
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.setPage(1)}>2</button>
                   </li>
-                  <li className="page-item"><button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(2, 10, 'id', 'asc')}>3</button></li>
+                  <li className="page-item"><button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.setPage(2)}>3</button></li>
                   <li className="page-item">
                     <button className="btn btn-md btn-outline-dark border-light alert-link text-white">
                       <img src={arrowRight} width="15" height="15" alt="" />
@@ -732,6 +811,18 @@ export default class CardsProductos extends React.Component {
         </div>
 
         {/* FIN PAGINATION*/}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -819,6 +910,10 @@ export default class CardsProductos extends React.Component {
 
 
 
+
+
+
+
         {/*MODAL Detalle Productos */}
         <div>
           <Modal size='lg' show={this.state.isOpen} onHide={this.closeModal}>
@@ -882,6 +977,131 @@ export default class CardsProductos extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+        {/*MODAL DATASHEETS */}
+        <div>
+          <Modal size='lg' show={this.state.isOpenModalDatash} onHide={this.closeModalDatash}>
+            <Modal.Header variant="dark" closeButton>
+              <Modal.Title>Datasheets</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Table striped bordered hover variant="dark" classNameNameName='table-condensed m-2'>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                    <th>Datasheet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    this.state.productos.map(producto =>
+                      <tr key={producto.id}>
+                        <td>{producto.codigo.substring(0, 12)}...</td>
+                        <td>{producto.descripcion}</td>
+                        <td >
+                          <div classNameName='border-rounded-circle bg-white'>
+                            <img src={producto.imagen} target="_blank" width="60px" height="60px" alt="imagen del componente" />
+                          </div>
+                        </td>
+                        <td >
+                          <div classNameName='border-rounded-circle bg-white'>
+                            <a href={producto.datasheet}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3997/3997593.png" target="_blank" width="60px" height="60px" alt="datasheet del componente" />
+                            </a>
+                          </div>
+                        </td>
+
+                        
+
+                      </tr >
+                    )
+                  }
+                </tbody >
+              </Table >
+
+
+ {/* PAGINATION*/}
+ <div className="container ms-2 mt-5 ">
+          <div className="row col-12 justify-content-center  bg-none ms-5">
+            {/*BTN'S PAGINATION*/}
+            <div className=" col-6 justify-content-center mt-2" id="pagination">
+              <nav aria-label="..." className="bg-none text-white">
+                <ul className="pagination pagination-lg bg-none text-white border-light alert-link">
+                  <li className="page-item bg-none text-white" >
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(0, 10, 'id', 'asc')}>
+                      <img src={arrowLastLeft} width="15" height="15" alt="" />
+                    </button>
+                  </li>
+                  <li className="page-item">
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white">
+                      <img src={arrowLeft} width="15" height="15" alt="" />
+                    </button>
+                  </li>
+                  <li className="page-item">
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(0, 10, 'id', 'asc')}>1</button>
+                  </li>
+                  <li className="page-item">
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(1, 10, 'id', 'asc')}>2</button>
+                  </li>
+                  <li className="page-item"><button className="btn btn-md btn-outline-dark border-light alert-link text-white" onClick={() => this.listarComp(2, 10, 'id', 'asc')}>3</button></li>
+                  <li className="page-item">
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white">
+                      <img src={arrowRight} width="15" height="15" alt="" />
+                    </button>
+                  </li>
+                  <li className="page-item">
+                    <button
+                      className="btn btn-md btn-outline-dark border-light alert-link text-white">
+                      <img src={arrowLastRight} width="15" height="15" alt="" />
+                    </button>
+                  </li>
+
+                  <li className="page-item bg-none text-white ms-5">
+
+                    <button className="btn btn-md btn-outline-dark border-light alert-link text-white"
+                    >
+                      Página: {this.state.nroPage + 1} / {this.state.nroTotalPages}
+                    </button>
+
+                  </li>
+
+                  <li>
+                    <button className="btn btn-md btn-outline-dark bg-none border-light alert-link text-white">
+                      Elementos: {this.state.nroCurrentElements} / {this.state.nroTotalElements}
+                    </button>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+            {/*FIN BTN'S PAGINATION*/}
+
+          </div>
+        </div>
+
+        {/* FIN PAGINATION*/}
+
+
+
+
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button closeButton variant="dark">Cerrar</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+        {/*Fin MODAL DATASHEETS */}
 
 
 

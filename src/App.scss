@@ -92,6 +92,26 @@
 
 }
 
+#buscadorTop{
+
+  p,h6{
+    color:white
+  }
+  li,button{
+    background-color: none;
+    color: white;
+    list-style: none;
+    border-radius: 0.5em;
+  }
+
+  button:hover{
+    background-color: rgb(86, 83, 83);
+  }
+  button:focus{
+    background-color: #58616b;
+  }
+}
+
 #buscadorAside {
   margin: 0em;
   background-color: rgb(18, 28, 34);
@@ -106,7 +126,13 @@
   button:hover{
     background-color: rgb(45, 45, 45);
   }
+  button:focus{
+    background-color: #58616b;
+  }
+
 }
+  
+
 
 
 
