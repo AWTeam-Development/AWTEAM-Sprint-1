@@ -35,7 +35,7 @@ import AccordionModalAyuda from './AccordionModalAyuda';
 
 export default class CardsProductos extends React.Component {
 
-  
+
 
   constructor(props) {
     super(props);
@@ -47,26 +47,29 @@ export default class CardsProductos extends React.Component {
       productos: [],
       productoSelect: 0,
 
+      //ultimos Prod
+      lastProductos: [],
+
       //Pagination
-      isFirstPage : false,
-      isLastPage : false,
-      nroPage : 0,
-      nroTotalPages : 0,
-      nroGetElements:10,
-      nroCurrentElements : 0,
-      nroTotalElements : 0,
-      orderType : 'id',
-      orderBy : 'asc',
+      isFirstPage: false,
+      isLastPage: false,
+      nroPage: 0,
+      nroTotalPages: 0,
+      nroGetElements: 10,
+      nroCurrentElements: 0,
+      nroTotalElements: 0,
+      orderType: 'id',
+      orderBy: 'asc',
 
       //Filters
-      filterBy:'',
-      filterField:'',
+      filterBy: '',
+      filterField: '',
 
-     
+
       //Modals
       isOpen: false,
       isOpenModalAyuda: false,
-      
+
 
     }
 
@@ -83,10 +86,27 @@ export default class CardsProductos extends React.Component {
     this.closeModalAyuda = () => this.setState({ isOpenModalAyuda: false });
 
 
- 
+
 
   }
 
+
+  //Listado Ultimos Productos
+
+  listarLastComp() {
+    ApiProductosService.getProductosList(this.state.nroTotalPages, ((this.state.nroTotalElements) - (this.state.nroTotalElements - 2)), this.state.orderType, this.state.orderBy)
+      .then((response) => {
+        this.setState({
+          lastProductos: response.data.content,
+
+        });
+
+        console.log(response.data.content);
+      })
+      .catch(function (ex) {
+        console.log('No se ha podido listar los ultimos componentes agregados. Causado por : ', ex);
+      });;
+  }
 
 
 
@@ -96,15 +116,15 @@ export default class CardsProductos extends React.Component {
   listarComp() {
     ApiProductosService.getProductosList(this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
-        this.setState({ 
+        this.setState({
           productos: response.data.content,
           nroTotalPages: response.data.totalPages,
-          nroCurrentElements :response.data.numberOfElements,
-          nroTotalElements : response.data.totalElements,
-          isFirstPage : response.data.first, 
-          isLastPage : response.data.last
-         });
-       
+          nroCurrentElements: response.data.numberOfElements,
+          nroTotalElements: response.data.totalElements,
+          isFirstPage: response.data.first,
+          isLastPage: response.data.last
+        });
+
         console.log(response.data.content);
       })
       .catch(function (ex) {
@@ -116,14 +136,14 @@ export default class CardsProductos extends React.Component {
   listarCompFilter(filterField, filterBy) {
     ApiProductosService.getProductosFilter(filterField, filterBy, this.state.nroPage, this.state.nroGetElements, this.state.orderType, this.state.orderBy)
       .then((response) => {
-        this.setState({ 
+        this.setState({
           productos: response.data.content,
           nroTotalPages: response.data.totalPages,
-          nroCurrentElements :response.data.numberOfElements,
-          nroTotalElements : response.data.totalElements,
-          isFirstPage : response.data.first, 
-          isLastPage : response.data.last
-        
+          nroCurrentElements: response.data.numberOfElements,
+          nroTotalElements: response.data.totalElements,
+          isFirstPage: response.data.first,
+          isLastPage: response.data.last
+
         });
         console.log(response.data.content);
       })
@@ -132,7 +152,7 @@ export default class CardsProductos extends React.Component {
       });;
   }
 
- 
+
 
 
 
@@ -144,6 +164,7 @@ export default class CardsProductos extends React.Component {
   //cargamos el listado 
   componentDidMount() {
     this.listarComp();
+    this.listarLastComp();
   }
 
 
@@ -152,6 +173,26 @@ export default class CardsProductos extends React.Component {
     return (
 
       <>
+
+      <div className='ms-5 me-5'>
+<div class="bg-dark text-white d-flex d-row mb-4 mt-2 ms-5 me-5" >
+  <div className='d-flex justify-content-start text-left p-2 me-3'>
+  MicroElectrónica / Productos / Filtrados por {this.state.filterField.toString}
+  </div>
+
+  <div className='d-flex justify-content-start text-left p-2 ms-5'>
+    <ul className='d-flex d-row list-unstyled'>
+      <li className='ms-3'>Transistores</li>
+      <li className='ms-3'>Capacitores</li>
+      <li className='ms-3'>Resistores</li>
+      
+    </ul>
+    
+  </div>
+
+
+</div>
+</div>
 
         <div className='d-flex d-row'>
 
@@ -471,14 +512,32 @@ export default class CardsProductos extends React.Component {
 
 
 
-{/*CARDS PRODUCTOS*/}
-          <div className="container row row-cols-1 row-m-1 row-cols-sm-2 row-cols-md-3  row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center ms-0">
+
+
+
+
+
+
+
+
+
+
+
+
+
+          {/*CARDS PRODUCTOS*/}
+          <div className="container row  row-cols-sm-1 row-cols-md-2  row-cols-lg-3 row-cols-xl-5 g-4 justify-content-center ms-0 ">
+
+
+
+
+
 
             {
               this.state.productos.map(producto =>
 
-                <div className='col'>
-                  <div className="card h-80 w-100 " id="cardsProductos" key={producto.id}>
+                <div className='col me-0 '>
+                  <div className="card h-70 w-100 " id="cardsProductos" key={producto.id}>
                     <p className='small m-0'>{producto.codigo.substring(0, 18)}..</p>
                     <img src={producto.imagen} target="_blank" width="120px" height="150px" className="card-img-top m-0" alt='imagen del componente' />
                     <div className="card-body text-center p-1">
@@ -545,7 +604,73 @@ export default class CardsProductos extends React.Component {
 
 
 
+
+
+{/*ULTIMOS AGREGADOS*/}
+          <div className='justify-content-end me-0'>
+
+
+            <div class="col-sm-12 me-0">
+
+              <div class="col-sm-10 ">
+
+              <div class="alert alert-primary" role="alert">
+                  Últimos Agregados
+                </div>
+                {
+                  this.state.lastProductos.map(producto =>
+
+
+                    <div class="card text-bg-dark mb-2" key={producto.id}>
+
+                      <img src={producto.imagen} class="card-img" target="_blank" width="120px" height="100px" alt="..." />
+                      <div class="card-footer bg-dark">
+
+                        <div className="d-flex justify-content-center bg-dark">
+
+                          {/*Btn Modal Visualizar Producto*/}
+                          <Button type='button' className="btn btn-primary border-secondary bg-dark alert-link m-1 p-1" onClick={this.openModal}>
+                            <img src={detailsProd} alt="" width="25" height="25" title="Detalles Producto" />
+                          </Button>
+                          {/*Fin Icono Visualizar Producto*/}
+
+                          <button className="btn btn-warning bg-dark border-secondary alert-link m-1 p-1">
+                            {/*Icono Editar Producto*/}
+                            <img src={editProd} alt="" width="25" height="25" title="Editar Producto" className="" />
+                            {/*Fin Icono Editar Producto*/}
+                          </button>
+
+                          {/* BTN MODAL DELETE CHECK  */}
+                          <button type="button" className="btn btn-danger border-secondary bg-dark  alert-link m-1 p-1" data-bs-toggle="modal" data-bs-target="#modalDetailsProd02">
+                            {/* Icono Eliminar Producto*/}
+                            <img src={deleteProd} alt="" width="25" height="25" title="Eliminar Producto" className="" />
+                            {/* Fin Icono Eliminar Producto*/}
+                          </button>
+                          {/*  FIN BTN MODAL DELETE CHECK */}
+
+                        </div>
+
+
+                      </div>
+                    </div>
+                  )}
+              </div>
+            </div>
+          </div>
+{/*FIN ULTIMOS AGREGADOS*/}
+
+
+
+
+
         </div>
+
+
+
+
+
+
+
 
         {/* PAGINATION*/}
         <div className="container ms-2 mt-5 ">
@@ -621,6 +746,19 @@ export default class CardsProductos extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
         {/*MODAL Ayuda */}
 
         <div className='bg-dark'>
@@ -659,7 +797,7 @@ export default class CardsProductos extends React.Component {
 
 
               {/*ACCORDION CAMPOS*/}
-              <AccordionModalAyuda/>
+              <AccordionModalAyuda />
               {/*FIN ACCORDION CAMPOS*/}
 
               <div className="text-left mt-5 ms-0 ">
@@ -675,7 +813,6 @@ export default class CardsProductos extends React.Component {
         </div>
 
         {/*Fin MODAL Ayuda */}
-
 
 
 
